@@ -1,1 +1,0 @@
-// index.js - homepage JS if needed
