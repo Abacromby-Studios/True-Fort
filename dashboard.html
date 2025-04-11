@@ -1,1 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard - TrueFort</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    .hidden { display: none; }
+    .centered {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .chat-form {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .chat-form input {
+      flex-grow: 1;
+    }
+  </style>
+</head>
+<body>
 
+  <!-- Password Screen -->
+  <div id="password-screen" class="centered">
+    <h2>Admin Login</h2>
+    <input type="password" id="password-input" placeholder="Enter access password..." />
+    <button id="password-submit">Submit</button>
+    <p id="error-msg" style="color: red; display: none;">Incorrect password. Try again.</p>
+  </div>
+
+  <!-- Dashboard Content -->
+  <div id="dashboard" class="hidden">
+    <header>
+      <div class="logo">
+        <h1>TrueFort Admin</h1>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="dashboard.html" class="active">Dashboard</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="dashboard">
+      <section class="admin-panel">
+        <h2>Incoming Support Tickets</h2>
+        <div id="ticket-list" class="ticket-list">
+          <!-- Tickets populate here -->
+        </div>
+      </section>
+
+      <section class="chat-panel">
+        <h2>Chat Panel</h2>
+        <div id="chat-window" class="chat-window">
+          <!-- Chat messages appear here -->
+        </div>
+        <form id="chat-form" class="chat-form">
+          <input type="text" id="chat-input" placeholder="Type your response..." autocomplete="off" required />
+          <button type="submit"><i class="fas fa-paper-plane"></i></button>
+        </form>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2025 TrueFort. All rights reserved.</p>
+      </div>
+    </footer>
+  </div>
+
+  <audio id="alert-sound" src="alert1.mp3" preload="auto"></audio>
+  <script src="socket.io.js"></script>
+  <script src="dashboard.js"></script>
+  <script>
+    const passwordScreen = document.getElementById('password-screen');
+    const dashboard = document.getElementById('dashboard');
+    const passwordInput = document.getElementById('password-input');
+    const passwordSubmit = document.getElementById('password-submit');
+    const errorMsg = document.getElementById('error-msg');
+
+    const correctPassword = "Alpha Lima Delta Bravo Charlie Five Five Seven Six 765518903";
+
+    passwordSubmit.addEventListener('click', () => {
+      if (passwordInput.value.trim() === correctPassword) {
+        passwordScreen.classList.add('hidden');
+        dashboard.classList.remove('hidden');
+      } else {
+        errorMsg.style.display = 'block';
+      }
+    });
+
+    passwordInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') passwordSubmit.click();
+    });
+  </script>
+</body>
+      </html>
