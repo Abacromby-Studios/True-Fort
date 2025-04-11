@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Dashboard - TrueFort</title>
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <style>
     .hidden { display: none; }
     .centered {
@@ -15,96 +14,100 @@
       justify-content: center;
       height: 100vh;
     }
-    .chat-form {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
+    input, button {
+      padding: 10px;
+      margin: 8px;
+      font-size: 16px;
     }
-    .chat-form input {
-      flex-grow: 1;
+    #dashboard {
+      padding: 20px;
+    }
+    .ticket {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    .message-box {
+      border-top: 1px solid #ccc;
+      margin-top: 10px;
+      padding-top: 10px;
     }
   </style>
 </head>
 <body>
 
-  <!-- Password Screen -->
-  <div id="password-screen" class="centered">
-    <h2>Admin Login</h2>
-    <input type="password" id="password-input" placeholder="Enter access password..." />
-    <button id="password-submit">Submit</button>
-    <p id="error-msg" style="color: red; display: none;">Incorrect password. Try again.</p>
+  <!-- Login Screen -->
+  <div id="login-screen" class="centered">
+    <h2>Admin Access</h2>
+    <input type="password" id="admin-password" placeholder="Enter Password" />
+    <button onclick="checkPassword()">Submit</button>
+    <p id="login-error" style="color: red; display: none;">Wrong password. Try again.</p>
   </div>
 
-  <!-- Dashboard Content -->
+  <!-- Dashboard -->
   <div id="dashboard" class="hidden">
-    <header>
-      <div class="logo">
-        <h1>TrueFort Admin</h1>
-      </div>
-      <nav>
-        <ul>
-          <li><a href="index.html">Home</a></li>
-          <li><a href="dashboard.html" class="active">Dashboard</a></li>
-        </ul>
-      </nav>
-    </header>
-
-    <main class="dashboard">
-      <section class="admin-panel">
-        <h2>Incoming Support Tickets</h2>
-        <div id="ticket-list" class="ticket-list">
-          <!-- Tickets populate here -->
-        </div>
-      </section>
-
-      <section class="chat-panel">
-        <h2>Chat Panel</h2>
-        <div id="chat-window" class="chat-window">
-          <!-- Chat messages appear here -->
-        </div>
-        <form id="chat-form" class="chat-form">
-          <input type="text" id="chat-input" placeholder="Type your response..." autocomplete="off" required />
-          <button type="submit"><i class="fas fa-paper-plane"></i></button>
-        </form>
-      </section>
-    </main>
-
-    <footer>
-      <div class="container">
-        <p>&copy; 2025 TrueFort. All rights reserved.</p>
-      </div>
-    </footer>
+    <h1>Admin Dashboard - Tickets</h1>
+    <div id="tickets"></div>
   </div>
 
-  <audio id="alert-sound" src="sounds/severe-warning-alarm.mp3" preload="auto"></audio>
   <script src="/socket.io/socket.io.js"></script>
-  <script src="js/dashboard.js" defer></script>
-  <script defer>
-    document.addEventListener('DOMContentLoaded', () => {
-      const passwordScreen = document.getElementById('password-screen');
-      const dashboard = document.getElementById('dashboard');
-      const passwordInput = document.getElementById('password-input');
-      const passwordSubmit = document.getElementById('password-submit');
-      const errorMsg = document.getElementById('error-msg');
+  <script>
+    const correctPassword = "Alpha Lima Delta Bravo Charlie Five Five Seven Six 765518903";
 
-      const correctPassword = "Alpha Lima Delta Bravo Charlie Five Five Seven Six 765518903";
+    function checkPassword() {
+      const input = document.getElementById('admin-password').value.trim();
+      if (input === correctPassword) {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        initializeDashboard();
+      } else {
+        document.getElementById('login-error').style.display = 'block';
+      }
+    }
 
-      passwordSubmit.addEventListener('click', () => {
-        if (passwordInput.value.trim() === correctPassword) {
-          passwordScreen.classList.add('hidden');
-          dashboard.classList.remove('hidden');
-        } else {
-          errorMsg.style.display = 'block';
-        }
-      });
-
-      passwordInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          passwordSubmit.click();
-        }
-      });
+    document.getElementById('admin-password').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') checkPassword();
     });
+
+    function initializeDashboard() {
+      const socket = io();
+      const ticketsDiv = document.getElementById('tickets');
+
+      socket.on('new-ticket', (ticket) => {
+        const ticketEl = document.createElement('div');
+        ticketEl.classList.add('ticket');
+        ticketEl.innerHTML = `
+          <h3>Ticket #${ticket.id}</h3>
+          <p><strong>User:</strong> ${ticket.name} (${ticket.email})</p>
+          <p><strong>Subject:</strong> ${ticket.subject}</p>
+          <div class="messages" id="messages-${ticket.id}">
+            <p><strong>${ticket.name}:</strong> ${ticket.message}</p>
+          </div>
+          <div class="message-box">
+            <input type="text" placeholder="Type a reply..." id="reply-${ticket.id}" />
+            <button onclick="sendReply(${ticket.id})">Send</button>
+          </div>
+        `;
+        ticketsDiv.appendChild(ticketEl);
+      });
+
+      window.sendReply = function(ticketId) {
+        const input = document.getElementById(`reply-${ticketId}`);
+        const message = input.value.trim();
+        if (message) {
+          socket.emit('admin-reply', { ticketId, message });
+          const messagesDiv = document.getElementById(`messages-${ticketId}`);
+          const msgEl = document.createElement('p');
+          msgEl.innerHTML = `<strong>Admin:</strong> ${message}`;
+          messagesDiv.appendChild(msgEl);
+          input.value = '';
+        }
+      };
+    }
   </script>
 </body>
 </html>
+
+
+Your complete dashboard.html file has been created and saved. Let me know if you want to customize the layout, add notifications, or improve the security further.
+
