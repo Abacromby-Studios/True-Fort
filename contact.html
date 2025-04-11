@@ -28,7 +28,18 @@
     <form id="contact-form">
       <input type="text" id="username" placeholder="Your Name" required />
       <input type="email" id="email" placeholder="Your Email" required />
-      <textarea id="message" placeholder="Your Message" required></textarea>
+      
+      <select id="department" required>
+        <option value="">Select Department</option>
+        <option value="Website Development Team">Website Development Team</option>
+        <option value="Game Development Team">Game Development Team</option>
+        <option value="Appeal Team">Appeal Team</option>
+        <option value="Legal Team">Legal Team</option>
+      </select>
+
+      <input type="text" id="subject" placeholder="Subject" required />
+      <textarea id="message" placeholder="Describe your issue..." required></textarea>
+
       <button type="submit">Start Chat</button>
     </form>
   </main>
