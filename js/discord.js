@@ -1,1 +1,0 @@
-// discord.js - embedded Discord widget or server info
