@@ -1,7 +1,7 @@
 {
-  "name": "true-fort-api",
+  "name": "true-fort",
   "version": "1.0.0",
-  "description": "API for True-Fort Minecraft Server",
+  "description": "Official website for True-Fort SMP & Factions Minecraft Server",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -23,7 +23,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/api-studios/True-Fort.git"
+    "url": "git+https://github.com/abacromby-studios/True-Fort.git"
   },
   "keywords": [
     "express",
@@ -32,7 +32,7 @@
     "server"
   ],
   "bugs": {
-    "url": "https://github.com/api-studios/True-Fort/issues"
+    "url": "https://github.com/abacromby-studios/True-Fort/issues"
   },
-  "homepage": "https://github.com/api-studios/True-Fort#readme"
+  "homepage": "https://github.com/avacromby-studios/True-Fort#readme"
 }
