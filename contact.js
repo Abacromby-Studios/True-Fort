@@ -1,33 +1,24 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("contact-form");
+  const submitButton = document.getElementById("submit-form");
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault(); // Prevent ? at end of URL
-
-    const username = document.getElementById("username").value.trim();
+  submitButton.addEventListener("click", () => {
     const email = document.getElementById("email").value.trim();
     const department = document.getElementById("department").value;
     const subject = document.getElementById("subject").value.trim();
     const message = document.getElementById("message").value.trim();
 
-    if (!username || !email || !department || !subject || !message) {
+    if (!email || !department || !subject || !message) {
       alert("Please fill out all fields.");
       return;
     }
 
-    const socket = io();
+    // Simulate sending data to the server
+    console.log("Sending message:", { email, department, subject, message });
 
-    socket.emit("newTicket", {
-      username,
-      email,
-      department,
-      subject,
-      message
-    });
+    // Example: redirect to chat.html with ticket (if needed)
+    // window.location.href = "chat.html";
 
-    localStorage.setItem("username", username);
-    localStorage.setItem("email", email);
-
-    window.location.href = "chat.html";
+    alert("Message sent successfully!");
+    document.getElementById("contact-form").reset();
   });
 });
