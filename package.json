@@ -1,31 +1,31 @@
 {
     "name": "true-fort-api",
-      "version": "1.0.0",
-        "description": "API for True-Fort Minecraft Server",
-          "main": "server.js",
-            "scripts": {
-                "start": "node server.js",
-                    "start:dev": "nodemon server.js"
-                      },
-                        "dependencies": {
-                            "express": "^4.17.1"
-                              },
-                                "devDependencies": {
-                                    "nodemon": "^2.0.7"
-                                      },
-                                        "author": "Abacromby9 Studios",
-                                          "license": "ALL RIFHTS RESERVED",
-                                            "engines": {
-                                                "node": ">=14.0.0"
-                                                  },
-                                                    "repository": {
-                                                        "type": "git",
-                                                            "url": "https://github.com/api-studios/True-Fort"
-                                                              },
-                                                                "keywords": [
-                                                                    "express",
-                                                                        "api",
-                                                                            "minecraft",
-                                                                                "server"
-                                                                                  ]
-                                                                                  }
+    "version": "1.0.0",
+    "description": "API for True-Fort Minecraft Server",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "start:dev": "nodemon server.js"
+    },
+    "dependencies": {
+        "express": "^4.21.2"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.7"
+    },
+    "author": "Abacromby9 Studios",
+    "license": "ALL RIFHTS RESERVED",
+    "engines": {
+        "node": ">=14.0.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/api-studios/True-Fort"
+    },
+    "keywords": [
+        "express",
+        "api",
+        "minecraft",
+        "server"
+    ]
+}
