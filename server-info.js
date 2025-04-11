@@ -1,1 +1,0 @@
-// server-info.js - server status and IP copy functionality
