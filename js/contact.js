@@ -1,50 +1,70 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const contactForm = document.getElementById('contactForm');
+document.addEventListener("DOMContentLoaded", () => {
+  const generalForm = document.getElementById("general-form");
+  const appealForm = document.getElementById("appeal-form");
 
-    if (contactForm) {
-        contactForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
+  document.getElementById("show-general-form").addEventListener("click", () => {
+    generalForm.style.display = "block";
+    appealForm.style.display = "none";
+  });
 
-            const email = document.getElementById('email').value.trim();
-            const department = document.getElementById('department').value.trim();
-            const subject = document.getElementById('subject').value.trim();
-            const message = document.getElementById('message').value.trim();
+  document.getElementById("show-appeal-form").addEventListener("click", () => {
+    generalForm.style.display = "none";
+    appealForm.style.display = "block";
+  });
 
-            if (!email || !department || !subject || !message) {
-                showFormMessage('Please fill in all fields.', 'error');
-                return;
-            }
+  // Handle general contact form
+  const contactForm = document.getElementById("contactForm");
+  contactForm?.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-            const ticketData = { email, department, subject, message };
+    const email = document.getElementById("email").value;
+    const department = document.getElementById("department").value;
+    const subject = document.getElementById("subject").value;
+    const message = document.getElementById("message").value;
 
-            try {
-                // Send the ticket to the backend for mail + push + chat
-                const res = await fetch('/api/create-ticket', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(ticketData)
-                });
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, department, subject, message }),
+      });
 
-                const result = await res.json();
-                if (res.ok) {
-                    showFormMessage('Your message has been sent! We’ll get back to you soon.', 'success');
-                    contactForm.reset();
-                } else {
-                    showFormMessage(result.error || 'Failed to send your message.', 'error');
-                }
-            } catch (err) {
-                showFormMessage('Server error. Please try again later.', 'error');
-            }
-        });
+      if (res.ok) {
+        alert("Your message has been sent.");
+        contactForm.reset();
+      } else {
+        alert("Failed to send your message.");
+      }
+    } catch (error) {
+      alert("An error occurred while sending your message.");
     }
+  });
 
-    function showFormMessage(message, type) {
-        const formMessage = document.getElementById('formMessage');
-        if (formMessage) {
-            formMessage.textContent = message;
-            formMessage.className = `form-message ${type}`;
-            formMessage.style.display = 'block';
-            setTimeout(() => formMessage.style.display = 'none', 5000);
-        }
+  // Handle ban appeal form
+  const appeal = document.getElementById("appealForm");
+  appeal?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("appeal-email").value;
+    const username = document.getElementById("minecraft-username").value;
+    const banReason = document.getElementById("ban-reason").value;
+    const appealReason = document.getElementById("appeal-reason").value;
+
+    try {
+      const res = await fetch("/api/appeal", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, username, banReason, appealReason }),
+      });
+
+      if (res.ok) {
+        alert("Your appeal has been submitted.");
+        appeal.reset();
+      } else {
+        alert("Failed to submit your appeal.");
+      }
+    } catch (error) {
+      alert("An error occurred while submitting your appeal.");
     }
+  });
 });
