@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard - TrueFort</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body { font-family: Arial, sans-serif; background: #121212; color: #fff; padding: 20px; }
+        .chat-box { border: 1px solid #333; padding: 10px; margin-bottom: 20px; background: #1e1e1e; }
+        .messages { max-height: 200px; overflow-y: auto; background: #181818; padding: 10px; }
+        .message { margin-bottom: 5px; }
+        .admin-controls { display: flex; gap: 10px; margin-top: 10px; }
+        .input-group { display: flex; gap: 5px; margin-top: 10px; }
+        .input-group input { flex: 1; padding: 5px; }
+        .input-group button { padding: 6px 10px; }
+    </style>
+</head>
+<body>
+    <h1>Admin Dashboard - TrueFort</h1>
+    <div id="ticketContainer"></div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
