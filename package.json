@@ -1,0 +1,18 @@
+{
+      "name": "true-fort-api",
+        "version": "1.0.0",
+          "description": "API for True-Fort Minecraft Server",
+            "main": "server.js",
+              "scripts": {
+                  "start": "node server.js"
+                    },
+                      "dependencies": {
+                          "express": "^4.17.1"
+                            },
+                              "devDependencies": {
+                                  "nodemon": "^2.0.7"
+                                    },
+                                      "author": "Your Name",
+                                        "license": "ALL RIGHTS RESERVEF"
+                                        }
+}
