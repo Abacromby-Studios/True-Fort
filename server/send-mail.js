@@ -4,15 +4,15 @@ const nodemailer = require("nodemailer");
 const transporter = nodemailer.createTransport({
   service: "gmail",  // Use Gmail's email service
   auth: {
-    user: process.env.MAIL_USER,  // Your Gmail email (from .env)
-    pass: process.env.MAIL_PASS,  // Your Gmail password (from .env)
+    user: process.env.EMAIL_USER,  // Your Gmail email (from .env)
+    pass: process.env.EMAIL_PASS,  // Your Gmail password (from .env)
   },
 });
 
 // Function to send the email
 function sendMail(to, subject, html) {
   const mailOptions = {
-    from: process.env.MAIL_USER,  // Your Gmail email (from .env)
+    from: process.env.EMAIL_USER,  // Your Gmail email (from .env)
     to,  // Recipient's email address
     subject,  // Subject of the email
     html,  // HTML content of the email (from contact form)
