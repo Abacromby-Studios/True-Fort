@@ -35,50 +35,46 @@
         <div class="container">
             <div class="contact-options">
                 <div class="contact-option">
-                    <h2>General Inquiry</h2>
-                    <p>Have questions or feedback? Fill out our contact form.</p>
-                    <button class="btn" id="show-general-form">Contact Us</button>
-                </div>
-                <div class="contact-option">
                     <h2>Ban Appeal</h2>
                     <p>Submit an appeal if you've been banned from our server.</p>
                     <button class="btn" id="show-appeal-form">Submit Appeal</button>
                 </div>
             </div>
 
+            <!-- General Contact Form Section (re-added) -->
             <div class="contact-form-container" id="general-form">
-                <h2>Contact Form</h2>
+                <h2>General Contact Form</h2>
                 <form id="contact-form" autocomplete="off">
-  <div class="form-group">
-    <label for="email">Email Address*</label>
-    <input type="email" id="email" name="email" required />
-  </div>
+                    <div class="form-group">
+                        <label for="email">Email Address*</label>
+                        <input type="email" id="email" name="email" required />
+                    </div>
 
-  <div class="form-group">
-    <label for="department">Department*</label>
-    <select id="department" name="department" required>
-      <option value="">Select a department</option>
-      <option value="website">Website Development Team</option>
-      <option value="game">Game Development Team</option>
-      <option value="legal">Legal Team</option>
-      <option value="appeal">Appeal Team</option>
-    </select>
-  </div>
+                    <div class="form-group">
+                        <label for="department">Department*</label>
+                        <select id="department" name="department" required>
+                            <option value="">Select a department</option>
+                            <option value="website">Website Development Team</option>
+                            <option value="game">Game Development Team</option>
+                            <option value="legal">Legal Team</option
+                        </select>
+                    </div>
 
-  <div class="form-group">
-    <label for="subject">Subject*</label>
-    <input type="text" id="subject" name="subject" required />
-  </div>
+                    <div class="form-group">
+                        <label for="subject">Subject*</label>
+                        <input type="text" id="subject" name="subject" required />
+                    </div>
 
-  <div class="form-group">
-    <label for="message">Message*</label>
-    <textarea id="message" name="message" rows="6" required></textarea>
-  </div>
+                    <div class="form-group">
+                        <label for="message">Message*</label>
+                        <textarea id="message" name="message" rows="6" required></textarea>
+                    </div>
 
-  <button type="button" class="btn btn-primary" id="submit-form">Submit</button>
-</form>
+                    <button type="button" class="btn btn-primary" id="submit-form">Submit</button>
+                </form>
             </div>
 
+            <!-- Ban Appeal Form Section -->
             <div class="contact-form-container" id="appeal-form" style="display: none;">
                 <h2>Ban Appeal Form</h2>
                 <form id="appeal-form" action="javascript:void(0);" method="post" autocomplete="off">
@@ -98,7 +94,7 @@
                         <label for="appeal-reason">Why should we unban you?*</label>
                         <textarea id="appeal-reason" name="appealReason" rows="6" required></textarea>
                     </div>
-                    <button type="button" id="submit-form">Submit</button>n>
+                    <button type="button" id="submit-appeal-form">Submit Appeal</button>
                 </form>
             </div>
         </div>
@@ -142,5 +138,18 @@
 
     <script src="main.js"></script>
     <script src="contact.js"></script>
+
+    <script>
+        // JS to handle appeal form toggle visibility
+        document.addEventListener('DOMContentLoaded', () => {
+            const appealForm = document.getElementById('appeal-form');
+            const showAppealFormBtn = document.getElementById('show-appeal-form');
+
+            // Show appeal form when the button is clicked
+            showAppealFormBtn.addEventListener('click', () => {
+                appealForm.style.display = appealForm.style.display === 'none' ? 'block' : 'none';
+            });
+        });
+    </script>
 </body>
                         </html>
