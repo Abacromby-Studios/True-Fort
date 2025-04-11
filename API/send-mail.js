@@ -1,4 +1,4 @@
-import { sendEmail } from './sendEmail.js'; // adjust path if needed
+import { sendEmail } from './sendEmail.js'; // adjut path if needed
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
