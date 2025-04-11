@@ -1,7 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("contact-form");
   const submitButton = document.getElementById("submit-form");
 
-  submitButton.addEventListener("click", () => {
+  submitButton.addEventListener("click", (e) => {
+    e.preventDefault(); // Prevents any default action
+
     const email = document.getElementById("email").value.trim();
     const department = document.getElementById("department").value;
     const subject = document.getElementById("subject").value.trim();
@@ -12,13 +15,18 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Simulate sending data to the server
-    console.log("Sending message:", { email, department, subject, message });
+    console.log("Submitting form with:", { email, department, subject, message });
 
-    // Example: redirect to chat.html with ticket (if needed)
+    // Example redirect (disabled for now)
     // window.location.href = "chat.html";
 
-    alert("Message sent successfully!");
-    document.getElementById("contact-form").reset();
+    alert("Message submitted!");
+    form.reset();
+  });
+
+  // Extra protection just in case someone presses Enter
+  form.addEventListener("submit", (e) => {
+    e.preventDefault(); // Stops all form submissions
+    return false;
   });
 });
