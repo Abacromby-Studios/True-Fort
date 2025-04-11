@@ -6,8 +6,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const chatInput = document.getElementById('chat-input');
   const sendButton = document.getElementById('send-button');
   const closeButton = document.getElementById('close-button');
+  const loginForm = document.getElementById('login-form');
+  const passwordField = document.getElementById('password');
+  const password = 'Alpha Lima Delta Bravo Charlie Five Five Seven Six 765518903';
+  const errorMessage = document.getElementById('errorMessage');
 
-  const alertSound = new Audio('/alert1.mp3'); // make sure this file exists
+  const alertSound = new Audio('/alert1.mp3'); // Make sure this file exists
   let currentTicketId = null;
 
   // Function to create ticket element
@@ -109,5 +113,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const ticketEl = document.querySelector(`.ticket[data-ticket-id="${ticketId}"]`);
     if (ticketEl) ticketEl.remove();
   });
+
+  // Password authentication for dashboard access
+  loginForm.addEventListener('submit', function (event) {
+    event.preventDefault(); // Prevent form submission
+
+    if (passwordField.value === password) {
+      loginForm.style.display = 'none'; // Hide login form
+      document.getElementById('dashboard').style.display = 'block'; // Show dashboard
+    } else {
+      errorMessage.style.display = 'block'; // Show error message
+      passwordField.value = ''; // Clear the password field
+    }
+  });
 });
-    
