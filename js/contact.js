@@ -1,45 +1,50 @@
-
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
     const contactForm = document.getElementById('contactForm');
-    
+
     if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
+        contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
-            // Get form values
-            const email = document.getElementById('email').value;
-            const subject = document.getElementById('subject').value;
-            const message = document.getElementById('message').value;
-            
-            // Validate form
-            if (!email || !subject || !message) {
-                showFormMessage('Please fill in all fields', 'error');
+
+            const email = document.getElementById('email').value.trim();
+            const department = document.getElementById('department').value.trim();
+            const subject = document.getElementById('subject').value.trim();
+            const message = document.getElementById('message').value.trim();
+
+            if (!email || !department || !subject || !message) {
+                showFormMessage('Please fill in all fields.', 'error');
                 return;
             }
-            
-            // In a real implementation, you would send the form data to a server
-            // For demonstration purposes, we'll just show a success message
-            
-            // Clear form
-            contactForm.reset();
-            
-            // Show success message
-            showFormMessage('Your message has been sent! We'll get back to you soon.', 'success');
+
+            const ticketData = { email, department, subject, message };
+
+            try {
+                // Send the ticket to the backend for mail + push + chat
+                const res = await fetch('/api/create-ticket', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(ticketData)
+                });
+
+                const result = await res.json();
+                if (res.ok) {
+                    showFormMessage('Your message has been sent! We’ll get back to you soon.', 'success');
+                    contactForm.reset();
+                } else {
+                    showFormMessage(result.error || 'Failed to send your message.', 'error');
+                }
+            } catch (err) {
+                showFormMessage('Server error. Please try again later.', 'error');
+            }
         });
     }
-    
+
     function showFormMessage(message, type) {
         const formMessage = document.getElementById('formMessage');
-        
         if (formMessage) {
             formMessage.textContent = message;
             formMessage.className = `form-message ${type}`;
             formMessage.style.display = 'block';
-            
-            // Hide message after 5 seconds
-            setTimeout(() => {
-                formMessage.style.display = 'none';
-            }, 5000);
+            setTimeout(() => formMessage.style.display = 'none', 5000);
         }
     }
 });
