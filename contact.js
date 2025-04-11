@@ -17,11 +17,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
     console.log("Submitting form with:", { email, department, subject, message });
 
-    // Example redirect (disabled for now)
-    // window.location.href = "chat.html";
+    // Now we will simulate ticket creation and redirect
+    // Simulating sending the data to a server or using socket.io to emit a new ticket
+    const ticketData = {
+      email,
+      department,
+      subject,
+      message,
+    };
 
-    alert("Message submitted!");
-    form.reset();
+    // You could use a socket.emit here to send this ticket to the server and create a ticket in the dashboard
+    // For example:
+    // socket.emit('newTicket', ticketData);
+
+    // For now, simulate a redirect after submitting the form
+    localStorage.setItem("ticketData", JSON.stringify(ticketData)); // Store data in localStorage (you can replace this with real server-side storage)
+
+    // Redirect to chat page
+    window.location.href = "chat.html";
   });
 
   // Extra protection just in case someone presses Enter
