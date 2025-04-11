@@ -76,30 +76,35 @@
     </footer>
   </div>
 
-  <audio id="alert-sound" src="alert1.mp3" preload="auto"></audio>
-  <script src="socket.io.js"></script>
-  <script src="dashboard.js"></script>
-  <script>
-    const passwordScreen = document.getElementById('password-screen');
-    const dashboard = document.getElementById('dashboard');
-    const passwordInput = document.getElementById('password-input');
-    const passwordSubmit = document.getElementById('password-submit');
-    const errorMsg = document.getElementById('error-msg');
+  <audio id="alert-sound" src="sounds/severe-warning-alarm.mp3" preload="auto"></audio>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="js/dashboard.js" defer></script>
+  <script defer>
+    document.addEventListener('DOMContentLoaded', () => {
+      const passwordScreen = document.getElementById('password-screen');
+      const dashboard = document.getElementById('dashboard');
+      const passwordInput = document.getElementById('password-input');
+      const passwordSubmit = document.getElementById('password-submit');
+      const errorMsg = document.getElementById('error-msg');
 
-    const correctPassword = "Alpha Lima Delta Bravo Charlie Five Five Seven Six 765518903";
+      const correctPassword = "Alpha Lima Delta Bravo Charlie Five Five Seven Six 765518903";
 
-    passwordSubmit.addEventListener('click', () => {
-      if (passwordInput.value.trim() === correctPassword) {
-        passwordScreen.classList.add('hidden');
-        dashboard.classList.remove('hidden');
-      } else {
-        errorMsg.style.display = 'block';
-      }
-    });
+      passwordSubmit.addEventListener('click', () => {
+        if (passwordInput.value.trim() === correctPassword) {
+          passwordScreen.classList.add('hidden');
+          dashboard.classList.remove('hidden');
+        } else {
+          errorMsg.style.display = 'block';
+        }
+      });
 
-    passwordInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') passwordSubmit.click();
+      passwordInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          passwordSubmit.click();
+        }
+      });
     });
   </script>
 </body>
-      </html>
+</html>
