@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function() {
     const contactForm = document.getElementById('contactForm');
     
@@ -6,19 +7,13 @@ document.addEventListener('DOMContentLoaded', function() {
             e.preventDefault();
             
             // Get form values
-            const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const subject = document.getElementById('subject').value;
             const message = document.getElementById('message').value;
             
             // Validate form
-            if (!name || !email || !subject || !message) {
+            if (!email || !subject || !message) {
                 showFormMessage('Please fill in all fields', 'error');
-                return;
-            }
-            
-            if (!isValidEmail(email)) {
-                showFormMessage('Please enter a valid email address', 'error');
                 return;
             }
             
@@ -29,13 +24,8 @@ document.addEventListener('DOMContentLoaded', function() {
             contactForm.reset();
             
             // Show success message
-            showFormMessage('Your message has been sent! We\'ll get back to you soon.', 'success');
+            showFormMessage('Your message has been sent! We'll get back to you soon.', 'success');
         });
-    }
-    
-    function isValidEmail(email) {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
     }
     
     function showFormMessage(message, type) {
@@ -53,4 +43,3 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
-                       
