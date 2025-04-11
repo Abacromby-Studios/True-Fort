@@ -1,33 +1,23 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("contact-form");
+document.addEventListener("DOMContentLoaded", function() {
+    const contactForm = document.getElementById('contact-form');
+    const submitButton = document.getElementById('submit-form');
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault(); // Prevent ? at end of URL
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
 
-    const username = document.getElementById("username").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const department = document.getElementById("department").value;
-    const subject = document.getElementById("subject").value.trim();
-    const message = document.getElementById("message").value.trim();
+            // Collect form data
+            const email = document.getElementById('email').value;
+            const department = document.getElementById('department').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
 
-    if (!username || !email || !department || !subject || !message) {
-      alert("Please fill out all fields.");
-      return;
+            if (email && department && subject && message) {
+                console.log("Form submitted:", { email, department, subject, message });
+                // You can add your logic to send the form data to the server or handle it here
+            } else {
+                alert("Please fill out all required fields.");
+            }
+        });
     }
-
-    const socket = io();
-
-    socket.emit("newTicket", {
-      username,
-      email,
-      department,
-      subject,
-      message
-    });
-
-    localStorage.setItem("username", username);
-    localStorage.setItem("email", email);
-
-    window.location.href = "chat.html";
-  });
-});// contact.js - real-time chat handling with Socket.IO
+});
