@@ -2,8 +2,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("contact-form");
   const submitButton = document.getElementById("submit-form");
 
+  const piesocket = new WebSocket("wss://s14444.nyc1.piesocket.com/v3/1?api_key=UPiinnDYEtfHneH6QMpY0w1cF9JgdL8wrocbmbUV&notify_self=1");
+
   submitButton.addEventListener("click", (e) => {
-    e.preventDefault(); // Prevents any default action
+    e.preventDefault();
 
     const email = document.getElementById("email").value.trim();
     const department = document.getElementById("department").value;
@@ -15,31 +17,33 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    console.log("Submitting form with:", { email, department, subject, message });
-
-    // Now we will simulate ticket creation and redirect
-    // Simulating sending the data to a server or using socket.io to emit a new ticket
     const ticketData = {
+      type: "support-ticket",
       email,
       department,
       subject,
       message,
+      timestamp: Date.now(),
     };
 
-    // You could use a socket.emit here to send this ticket to the server and create a ticket in the dashboard
-    // For example:
-    // socket.emit('newTicket', ticketData);
+    // Store to localStorage for chat reference
+    localStorage.setItem("ticketData", JSON.stringify(ticketData));
 
-    // For now, simulate a redirect after submitting the form
-    localStorage.setItem("ticketData", JSON.stringify(ticketData)); // Store data in localStorage (you can replace this with real server-side storage)
+    if (piesocket.readyState === WebSocket.OPEN) {
+      piesocket.send(JSON.stringify({ event: "new-ticket", data: ticketData }));
+    } else {
+      piesocket.addEventListener("open", () => {
+        piesocket.send(JSON.stringify({ event: "new-ticket", data: ticketData }));
+      });
+    }
 
-    // Redirect to chat page
+    // Redirect to chat interface
     window.location.href = "chat.html";
   });
 
-  // Extra protection just in case someone presses Enter
+  // Prevent accidental form submission with Enter
   form.addEventListener("submit", (e) => {
-    e.preventDefault(); // Stops all form submissions
+    e.preventDefault();
     return false;
   });
 });
