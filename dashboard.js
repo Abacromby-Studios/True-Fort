@@ -1,28 +1,24 @@
 // Importing the password decryption function from redacted.js
-import { decodePassword } from './redacted.js';
+import { decodePassword } from "./redacted.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-  const socket = new WebSocket("wss://s14444.nyc1.piesocket.com/v3/1?api_key=UPiinnDYEtfHneH6QMpY0w1cF9JgdL8wrocbmbUV&notify_self=1");
-
-  // Decoding the password using the function from redacted.js
-  const password = decodePassword();  // Calls the decryption function from redacted.js
-
-  const adminPasswordInput = document.getElementById("admin-password");
-  const loginButton = document.getElementById("login-button");
   const loginSection = document.getElementById("login-section");
   const dashboardSection = document.getElementById("dashboard-section");
-
-  // Admin login functionality
+  const passwordInput = document.getElementById("admin-password");
+  const loginButton = document.getElementById("login-button");
+// Admin login functionality
   loginButton.addEventListener("click", () => {
-    if (adminPasswordInput.value === password) {
+    const decoded = decodePassword();
+    if (passwordInput.value.trim() === decoded) {
       loginSection.style.display = "none";
       dashboardSection.style.display = "block";
-      alert("Login successful!");
     } else {
-      alert("Incorrect password!");
+      alert("Incorrect password.");
     }
   });
 
+  // The rest of your WebSocket ticket handling logic goes here...
+});
   // Ticket elements
   const ticketList = document.getElementById("ticket-list");
   const messageArea = document.getElementById("message-area");
