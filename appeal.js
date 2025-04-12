@@ -1,4 +1,4 @@
-// appe// appeal.js
+// appeal.js
 document.addEventListener("DOMContentLoaded", () => {
   const appealForm = document.getElementById("appeal-form");
   const appealButton = document.getElementById("submit-appeal");
