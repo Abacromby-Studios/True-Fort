@@ -1,109 +1,24 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin Dashboard - TrueFort</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <style>
-    .hidden { display: none; }
-    .centered {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-    input, button {
-      padding: 10px;
-      margin: 8px;
-      font-size: 16px;
-    }
-    #dashboard {
-      padding: 20px;
-    }
-    .ticket {
-      border: 1px solid #ccc;
-      padding: 10px;
-      margin-bottom: 10px;
-    }
-    .message-box {
-      border-top: 1px solid #ccc;
-      margin-top: 10px;
-      padding-top: 10px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <header>
+    <h1>Admin Dashboard</h1>
+  </header>
+  <main>
+    <div id="tickets" class="ticket-container">
+      <h2>Incoming Tickets</h2>
+      <!-- Tickets will be dynamically added here -->
+    </div>
+  </main>
 
-  <!-- Login Screen -->
-  <div id="login-screen" class="centered">
-    <h2>Admin Access</h2>
-    <input type="password" id="admin-password" placeholder="Enter Password" />
-    <button onclick="checkPassword()">Submit</button>
-    <p id="login-error" style="color: red; display: none;">Wrong password. Try again.</p>
-  </div>
-
-  <!-- Dashboard -->
-  <div id="dashboard" class="hidden">
-    <h1>Admin Dashboard - Tickets</h1>
-    <div id="tickets"></div>
-  </div>
-
-  <script src="/socket.io/socket.io.js"></script>
-  <script>
-    const correctPassword = "Alpha Lima Delta Bravo Charlie Five Five Seven Six 765518903";
-
-    function checkPassword() {
-      const input = document.getElementById('admin-password').value.trim();
-      if (input === correctPassword) {
-        document.getElementById('login-screen').style.display = 'none';
-        document.getElementById('dashboard').style.display = 'block';
-        initializeDashboard();
-      } else {
-        document.getElementById('login-error').style.display = 'block';
-      }
-    }
-
-    document.getElementById('admin-password').addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') checkPassword();
-    });
-
-    function initializeDashboard() {
-      const socket = io();
-      const ticketsDiv = document.getElementById('tickets');
-
-      socket.on('new-ticket', (ticket) => {
-        const ticketEl = document.createElement('div');
-        ticketEl.classList.add('ticket');
-        ticketEl.innerHTML = `
-          <h3>Ticket #${ticket.id}</h3>
-          <p><strong>User:</strong> ${ticket.name} (${ticket.email})</p>
-          <p><strong>Subject:</strong> ${ticket.subject}</p>
-          <div class="messages" id="messages-${ticket.id}">
-            <p><strong>${ticket.name}:</strong> ${ticket.message}</p>
-          </div>
-          <div class="message-box">
-            <input type="text" placeholder="Type a reply..." id="reply-${ticket.id}" />
-            <button onclick="sendReply(${ticket.id})">Send</button>
-          </div>
-        `;
-        ticketsDiv.appendChild(ticketEl);
-      });
-
-      window.sendReply = function(ticketId) {
-        const input = document.getElementById(`reply-${ticketId}`);
-        const message = input.value.trim();
-        if (message) {
-          socket.emit('admin-reply', { ticketId, message });
-          const messagesDiv = document.getElementById(`messages-${ticketId}`);
-          const msgEl = document.createElement('p');
-          msgEl.innerHTML = `<strong>Admin:</strong> ${message}`;
-          messagesDiv.appendChild(msgEl);
-          input.value = '';
-        }
-      };
-    }
-  </script>
+  <script src="https://cdn.piesocket.com/web/v4/piesocket.js"></script>
+  <script src="dashboard.js"></script>
 </body>
 </html>
