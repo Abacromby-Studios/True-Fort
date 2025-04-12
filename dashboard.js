@@ -1,123 +1,101 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const loginForm = document.getElementById('login-form');
-  const passwordField = document.getElementById('password');
-  const errorMessage = document.getElementById('errorMessage');
-  const dashboard = document.getElementById('dashboard');
+// Importing the password decryption function from redacted.js
+import { decodePassword } from './redacted.js';
 
-  const ticketList = document.getElementById('ticket-list');
-  const chatHeader = document.getElementById('chat-header');
-  const chatMessages = document.getElementById('chat-messages');
-  const chatInput = document.getElementById('chat-input');
-  const sendButton = document.getElementById('send-button');
-  const closeButton = document.getElementById('close-button');
-  const alertSound = document.getElementById('alert-sound');
+document.addEventListener("DOMContentLoaded", () => {
+  const socket = new WebSocket("wss://s14444.nyc1.piesocket.com/v3/1?api_key=UPiinnDYEtfHneH6QMpY0w1cF9JgdL8wrocbmbUV&notify_self=1");
+
+  // Decoding the password using the function from redacted.js
+  const password = decodePassword();  // Calls the decryption function from redacted.js
+
+  const adminPasswordInput = document.getElementById("admin-password");
+  const loginButton = document.getElementById("login-button");
+  const loginSection = document.getElementById("login-section");
+  const dashboardSection = document.getElementById("dashboard-section");
+
+  // Admin login functionality
+  loginButton.addEventListener("click", () => {
+    if (adminPasswordInput.value === password) {
+      loginSection.style.display = "none";
+      dashboardSection.style.display = "block";
+      alert("Login successful!");
+    } else {
+      alert("Incorrect password!");
+    }
+  });
+
+  // Ticket elements
+  const ticketList = document.getElementById("ticket-list");
+  const messageArea = document.getElementById("message-area");
+  const messageInput = document.getElementById("message-input");
+  const sendButton = document.getElementById("send-message");
 
   let currentTicketId = null;
 
-  // WebSocket setup
-  const socket = new WebSocket('wss://s14444.nyc1.piesocket.com/v3/1?api_key=UPiinnDYEtfHneH6QMpY0w1cF9JgdL8wrocbmbUV&notify_self=1');
-
+  // Connect to WebSocket
   socket.onopen = () => {
-    console.log("Connected to PieSocket.");
-  };
+    console.log("Connected to WebSocket server");
 
-  socket.onmessage = (event) => {
-    const data = JSON.parse(event.data);
+    // Listen for incoming ticket messages
+    socket.onmessage = (event) => {
+      const data = JSON.parse(event.data);
 
-    if (data.event === 'new-ticket' || data.event === 'newTicket') {
-      const user = data.data.email || 'Unknown';
-      const ticketId = data.data.ticketId || String(Date.now()).slice(-5);
-      const ticketEl = createTicketElement(ticketId, user);
-      ticketList.appendChild(ticketEl);
-      alertSound.play();
-    }
-
-    if (data.event === 'userMessage' && data.ticketId === currentTicketId) {
-      appendMessage(data.message, 'user');
-      alertSound.play();
-    }
-
-    if (data.event === 'chatMessages' && data.ticketId === currentTicketId) {
-      chatMessages.innerHTML = '';
-      data.messages.forEach(msg => {
-        appendMessage(msg.text, msg.sender === 'admin' ? 'admin' : 'user');
-      });
-    }
-
-    if (data.event === 'ticketClosed') {
-      if (data.ticketId === currentTicketId) {
-        chatMessages.innerHTML = '';
-        chatHeader.textContent = 'Ticket closed';
-        currentTicketId = null;
+      if (data.action === "new-ticket") {
+        displayTicket(data.ticketId, data.subject, data.email);
+      } else if (data.ticketId === currentTicketId) {
+        if (data.action === "user-message") {
+          displayMessage("User", data.message);
+        } else if (data.action === "admin-reply") {
+          displayMessage("Admin", data.message);
+        }
       }
-      const ticketEl = document.querySelector(`.ticket[data-ticket-id="${data.ticketId}"]`);
-      if (ticketEl) ticketEl.remove();
-    }
+    };
   };
 
-  function createTicketElement(ticketId, userName) {
-    const ticketEl = document.createElement('div');
-    ticketEl.classList.add('ticket');
-    ticketEl.dataset.ticketId = ticketId;
-    ticketEl.innerText = `Ticket #${ticketId} - ${userName}`;
-    ticketEl.addEventListener('click', () => selectTicket(ticketId));
-    return ticketEl;
+  // Function to display new tickets in the admin panel
+  function displayTicket(ticketId, subject, email) {
+    const ticketItem = document.createElement("div");
+    ticketItem.classList.add("ticket");
+    ticketItem.innerHTML = `<strong>Ticket #${ticketId}:</strong> ${subject} - ${email}`;
+    ticketItem.addEventListener("click", () => {
+      loadTicket(ticketId);
+    });
+    ticketList.appendChild(ticketItem);
   }
 
-  function selectTicket(ticketId) {
+  // Function to load a selected ticket
+  function loadTicket(ticketId) {
     currentTicketId = ticketId;
-    chatHeader.textContent = `Ticket #${ticketId}`;
-    chatMessages.innerHTML = '';
-    socket.send(JSON.stringify({ event: 'getMessages', ticketId }));
-    document.querySelectorAll('.ticket').forEach(ticket => ticket.classList.remove('active'));
-    const activeTicket = document.querySelector(`.ticket[data-ticket-id="${ticketId}"]`);
-    if (activeTicket) activeTicket.classList.add('active');
+    messageArea.innerHTML = ""; // Clear previous messages
+    socket.send(JSON.stringify({ action: "join-ticket", ticketId }));
   }
 
-  function appendMessage(message, sender) {
-    const msgEl = document.createElement('div');
-    msgEl.classList.add('message', sender);
-    msgEl.textContent = message;
-    chatMessages.appendChild(msgEl);
-    chatMessages.scrollTop = chatMessages.scrollHeight;
+  // Function to display messages
+  function displayMessage(sender, message) {
+    const messageDiv = document.createElement("div");
+    messageDiv.classList.add("message");
+    messageDiv.innerHTML = `<strong>${sender}:</strong> ${message}`;
+    messageArea.appendChild(messageDiv);
+    messageArea.scrollTop = messageArea.scrollHeight; // Scroll to the bottom
   }
 
-  sendButton.addEventListener('click', () => {
-    const message = chatInput.value.trim();
-    if (!message || !currentTicketId) return;
-
-    socket.send(JSON.stringify({
-      event: 'adminMessage',
-      ticketId: currentTicketId,
-      message
-    }));
-
-    appendMessage(message, 'admin');
-    chatInput.value = '';
-  });
-
-  closeButton.addEventListener('click', () => {
-    if (!currentTicketId) return;
-    if (confirm('Are you sure you want to close this ticket?')) {
-      socket.send(JSON.stringify({ event: 'closeTicket', ticketId: currentTicketId }));
-      const ticketEl = document.querySelector(`.ticket[data-ticket-id="${currentTicketId}"]`);
-      if (ticketEl) ticketEl.remove();
-      chatMessages.innerHTML = '';
-      chatHeader.textContent = 'Select a ticket';
-      currentTicketId = null;
+  // Send message from admin to user
+  sendButton.addEventListener("click", () => {
+    const message = messageInput.value.trim();
+    if (message && currentTicketId !== null) {
+      socket.send(
+        JSON.stringify({
+          action: "admin-reply",
+          ticketId: currentTicketId,
+          message
+        })
+      );
+      displayMessage("Admin", message);
+      messageInput.value = "";
     }
   });
 
-  // Admin login
-  loginForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const inputPassword = passwordField.value.trim();
-    if (verifyPassword && verifyPassword(inputPassword)) {
-      loginForm.style.display = 'none';
-      dashboard.style.display = 'block';
-    } else {
-      errorMessage.style.display = 'block';
-      passwordField.value = '';
-    }
-  });
+  // Handle WebSocket disconnects
+  socket.onclose = () => {
+    console.log("Disconnected from WebSocket server");
+  };
 });
