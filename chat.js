@@ -1,3 +1,4 @@
+// chat.js
 document.addEventListener("DOMContentLoaded", () => {
   const socket = new WebSocket("wss://s14444.nyc1.piesocket.com/v3/1?api_key=UPiinnDYEtfHneH6QMpY0w1cF9JgdL8wrocbmbUV&notify_self=1");
 
