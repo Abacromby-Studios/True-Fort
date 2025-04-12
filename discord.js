@@ -1,1 +1,2 @@
-// discord.js - embedded Discord widget or server info
+// discord.js - embedded Discord widget, and any other functionality needed
+// Needs coded
