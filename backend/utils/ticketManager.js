@@ -1,3 +1,4 @@
+// ticketManager.js
 const { sendMail } = require('./email');
 
 const ticketTimeouts = {};
