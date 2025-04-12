@@ -6,7 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const dashboardSection = document.getElementById("dashboard-section");
   const passwordInput = document.getElementById("admin-password");
   const loginButton = document.getElementById("login-button");
-// Admin login functionality
+
+  // Admin login functionality
   loginButton.addEventListener("click", () => {
     const decoded = decodePassword();
     if (passwordInput.value.trim() === decoded) {
@@ -17,8 +18,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // The rest of your WebSocket ticket handling logic goes here...
-});
+  // WebSocket setup
+  const socket = new WebSocket("wss://s14444.nyc1.piesocket.com/v3/1?api_key=UPiinnDYEtfHneH6QMpY0w1cF9JgdL8wrocbmbUV&notify_self=1");
+
   // Ticket elements
   const ticketList = document.getElementById("ticket-list");
   const messageArea = document.getElementById("message-area");
@@ -71,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
     messageDiv.classList.add("message");
     messageDiv.innerHTML = `<strong>${sender}:</strong> ${message}`;
     messageArea.appendChild(messageDiv);
-    messageArea.scrollTop = messageArea.scrollHeight; // Scroll to the bottom
+    messageArea.scrollTop = messageArea.scrollHeight;
   }
 
   // Send message from admin to user
