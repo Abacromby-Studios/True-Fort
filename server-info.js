@@ -1,1 +1,1 @@
-// server-info.js - server status and IP copy functionality
+// server-info.js - IP copy functionality and wny other functionality required, - needs coded
