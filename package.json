@@ -1,40 +1,36 @@
 {
-  "name": "true-fort",
+  "name": "truefort-support-server",
   "version": "1.0.0",
-  "description": "Official website for True-Fort SMP & Factions Minecraft Server",
+  "description": "True-Fort SMP & Factions support server for handling contact form, live chat, and appeals.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "start:dev": "nodemon server.js"
+    "dev": "nodemon server.js"
   },
+  "keywords": [
+    "minecraft",
+    "support",
+    "true-fort",
+    "chat",
+    "firebase",
+    "nodemailer"
+  ],
+  "author": "Abacromby Studios",
+  "license": "MIT",
   "dependencies": {
     "body-parser": "^2.2.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^4.21.2",
     "firebase": "^11.6.0",
-    "nodemailer": "^6.10.0",
-    "socket.io": "^4.8.1"
+    "nodemailer": "^6.9.8",
+    "uuid": "^9.0.0",
+    "ws": "^8.17.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.7"
+    "nodemon": "^3.1.0"
   },
-  "author": "Abacromby9 Studios",
-  "license": "ALL RIFHTS RESERVED",
   "engines": {
-    "node": ">=14.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/abacromby-studios/True-Fort.git"
-  },
-  "keywords": [
-    "express",
-    "api",
-    "minecraft",
-    "server"
-  ],
-  "bugs": {
-    "url": "https://github.com/abacromby-studios/True-Fort/issues"
-  },
-  "homepage": "https://github.com/avacromby-studios/True-Fort#readme"
+    "node": ">=18.0.0"
+  }
 }
