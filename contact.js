@@ -1,49 +1,68 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.getElementById("contact-form");
-  const submitButton = document.getElementById("submit-form");
+document.addEventListener('DOMContentLoaded', () => {
+  const ticketInfo = document.getElementById('ticket-info');
+  const chatMessages = document.getElementById('chat-messages');
+  const userInput = document.getElementById('user-input');
+  const sendButton = document.getElementById('send-button');
+  const alertSound = document.getElementById('alert-sound');
 
-  const piesocket = new WebSocket("wss://s14444.nyc1.piesocket.com/v3/1?api_key=UPiinnDYEtfHneH6QMpY0w1cF9JgdL8wrocbmbUV&notify_self=1");
+  let ticketId = localStorage.getItem('ticketId');
+  let userEmail = localStorage.getItem('userEmail');
 
-  submitButton.addEventListener("click", (e) => {
-    e.preventDefault();
+  if (!ticketId || !userEmail) {
+    ticketInfo.textContent = 'Ticket info missing.';
+    sendButton.disabled = true;
+    userInput.disabled = true;
+    return;
+  }
 
-    const email = document.getElementById("email").value.trim();
-    const department = document.getElementById("department").value;
-    const subject = document.getElementById("subject").value.trim();
-    const message = document.getElementById("message").value.trim();
+  ticketInfo.textContent = `Ticket #${ticketId}`;
 
-    if (!email || !department || !subject || !message) {
-      alert("Please fill out all fields.");
-      return;
+  const socket = new WebSocket('wss://s14444.nyc1.piesocket.com/v3/1?api_key=UPiinnDYEtfHneH6QMpY0w1cF9JgdL8wrocbmbUV&notify_self=1');
+
+  socket.onopen = () => {
+    console.log('Connected to PieSocket as user.');
+    socket.send(JSON.stringify({
+      event: 'userConnected',
+      ticketId,
+      email: userEmail
+    }));
+  };
+
+  socket.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+
+    if (data.event === 'adminMessage' && data.ticketId === ticketId) {
+      appendMessage(data.message, 'admin');
+      alertSound.play();
     }
 
-    const ticketData = {
-      type: "support-ticket",
-      email,
-      department,
-      subject,
-      message,
-      timestamp: Date.now(),
-    };
-
-    // Store to localStorage for chat reference
-    localStorage.setItem("ticketData", JSON.stringify(ticketData));
-
-    if (piesocket.readyState === WebSocket.OPEN) {
-      piesocket.send(JSON.stringify({ event: "new-ticket", data: ticketData }));
-    } else {
-      piesocket.addEventListener("open", () => {
-        piesocket.send(JSON.stringify({ event: "new-ticket", data: ticketData }));
-      });
+    if (data.event === 'ticketClosed' && data.ticketId === ticketId) {
+      appendMessage('This ticket has been closed by an admin.', 'system');
+      sendButton.disabled = true;
+      userInput.disabled = true;
     }
+  };
 
-    // Redirect to chat interface
-    window.location.href = "chat.html";
+  sendButton.addEventListener('click', () => {
+    const message = userInput.value.trim();
+    if (!message) return;
+
+    socket.send(JSON.stringify({
+      event: 'userMessage',
+      ticketId,
+      email: userEmail,
+      message
+    }));
+
+    appendMessage(message, 'user');
+    userInput.value = '';
   });
 
-  // Prevent accidental form submission with Enter
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    return false;
-  });
+  function appendMessage(message, sender) {
+    const msgEl = document.createElement('div');
+    msgEl.classList.add('message', sender);
+    msgEl.textContent = message;
+    chatMessages.appendChild(msgEl);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  }
 });
