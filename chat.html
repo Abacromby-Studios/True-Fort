@@ -5,121 +5,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Support Chat - TrueFort</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="socket.io.js"></script>
 </head>
 <body>
-  <div class="chat-container">
-    <h2>Support Chat</h2>
-    <div id="chat-window" class="chat-window"></div>
-    <div class="chat-input">
-      <input type="text" id="chat-message" placeholder="Type your message..." autocomplete="off" />
-      <button id="send-message" type="button">Send</button>
-    </div>
-  </div>
+  <header>
+    <h1>TrueFort Support Chat</h1>
+  </header>
 
-  <script>
-    // Request notification + audio permission
-    if ('Notification' in window && Notification.permission !== 'granted') {
-      Notification.requestPermission();
-    }
+  <main>
+    <section id="chat-section">
+      <h2 id="ticket-info">Connecting...</h2>
+      <div id="chat-messages" class="chat-messages"></div>
+      <input type="text" id="user-input" placeholder="Type your message..." />
+      <button id="send-button">Send</button>
+    </section>
+  </main>
 
-    if (typeof AudioContext !== 'undefined') {
-      const audioCtx = new AudioContext();
-      document.body.addEventListener('click', () => {
-        if (audioCtx.state === 'suspended') {
-          audioCtx.resume();
-        }
-      }, { once: true });
-    }
+  <audio id="alert-sound" src="alert1.mp3" preload="auto"></audio>
 
-    const socket = io();
-    const chatWindow = document.getElementById("chat-window");
-    const chatInput = document.getElementById("chat-message");
-    const sendButton = document.getElementById("send-message");
-
-    let ticketId = sessionStorage.getItem("ticketId");
-
-    // Function to append messages
-    function appendMessage(message, sender = "user") {
-      const messageDiv = document.createElement("div");
-      messageDiv.className = `message ${sender}`;
-      messageDiv.textContent = message;
-      chatWindow.appendChild(messageDiv);
-      chatWindow.scrollTop = chatWindow.scrollHeight;
-    }
-
-    function playNotificationSound() {
-<script>
-  // Request notification + audio permission
-  if ('Notification' in window && Notification.permission !== 'granted') {
-    Notification.requestPermission();
-  }
-
-  if (typeof AudioContext !== 'undefined') {
-    const audioCtx = new AudioContext();
-    document.body.addEventListener('click', () => {
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
-    }, { once: true });
-  }
-
-  const socket = io();
-  const chatWindow = document.getElementById("chat-window");
-  const chatInput = document.getElementById("chat-message");
-  const sendButton = document.getElementById("send-message");
-
-  let ticketId = sessionStorage.getItem("ticketId");
-
-  function appendMessage(message, sender = "user") {
-    const messageDiv = document.createElement("div");
-    messageDiv.className = `message ${sender}`;
-    messageDiv.textContent = message;
-    chatWindow.appendChild(messageDiv);
-    chatWindow.scrollTop = chatWindow.scrollHeight;
-  }
-
-  function playNotificationSound() {
-    const sound = new Audio('/notification.mp3'); // Ensure this file exists
-    sound.play().catch(() => {});
-  }
-
-  if (!ticketId) {
-    const email = prompt("Enter your email:");
-    const subject = prompt("Enter your subject:");
-    const message = prompt("Enter your message:");
-
-    console.log("Creating new ticket...");
-    socket.emit("new-ticket", { email, subject, message, department: "support" });
-
-    socket.on("ticket-confirmed", (data) => {
-      console.log("Ticket confirmed:", data);
-      ticketId = data.ticketId;
-      sessionStorage.setItem("ticketId", ticketId);
-      socket.emit("join-ticket", ticketId);
-      appendMessage("Your ticket has been created. Support will be with you shortly.", "admin");
-    });
-  } else {
-    console.log("Rejoining existing ticket:", ticketId);
-    socket.emit("join-ticket", ticketId);
-  }
-
-  sendButton.addEventListener("click", () => {
-    const message = chatInput.value.trim();
-    if (message && ticketId) {
-      socket.emit("user-message", { ticketId, message });
-      appendMessage(message, "user");
-      chatInput.value = "";
-    } else {
-      console.warn("Cannot send message: No ticket ID or empty message");
-    }
-  });
-
-  socket.on("admin-reply", ({ message }) => {
-    appendMessage(message, "admin");
-    if (Notification.permission === "granted") {
-      new Notification("New reply from support", { body: message });
-    }
-    playNotificationSound();
-  });
-</script>
+  <script src="https://cdn.piesocket.com/web/v4/piesocket.js"></script>
+  <script src="contact.js"></script>
+</body>
+</html>
