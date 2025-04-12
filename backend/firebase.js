@@ -1,3 +1,4 @@
+// firebase.js
 const webpush = require('web-push');
 
 webpush.setVapidDetails(
