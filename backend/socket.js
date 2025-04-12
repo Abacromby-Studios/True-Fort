@@ -1,3 +1,4 @@
+// socket.js
 let ticketCounter = 1;
 const tickets = {};
 
