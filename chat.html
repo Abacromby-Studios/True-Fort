@@ -1,0 +1,29 @@
+<!---chat.html--->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Support Chat - TrueFort</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>TrueFort Support Chat</h1>
+  </header>
+
+  <main>
+    <section id="chat-section">
+      <h2 id="ticket-info">Connecting...</h2>
+      <div id="chat-messages" class="chat-messages"></div>
+      <input type="text" id="user-input" placeholder="Type your message..." />
+      <button id="send-button">Send</button>
+    </section>
+  </main>
+
+  <audio id="alert-sound" src="alert1.mp3" preload="auto"></audio>
+
+  <script src="https://cdn.piesocket.com/web/v4/piesocket.js"></script>
+  <script src="contact.js"></script>
+</body>
+</html>

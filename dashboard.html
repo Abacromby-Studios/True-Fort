@@ -1,11 +1,35 @@
+<!---dashboard.html--->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Admin Dashboard</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TrueFort Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Admin Dashboard</h1>
+  <div id="login-section">
+    <h2>Admin Login</h2>
+    <input type="password" id="admin-password" placeholder="Enter password" />
+    <button id="login-button">Login</button>
+  </div>
+
+  <div id="dashboard-section" style="display: none;">
+    <h2>Support Tickets</h2>
+    <div id="ticket-container">
+      <div id="ticket-list">
+        <h3>Tickets</h3>
+        <!-- Tickets will appear here -->
+      </div>
+      <div id="chat-panel">
+        <h3>Messages</h3>
+        <div id="message-area"></div>
+        <input type="text" id="message-input" placeholder="Type your message..." />
+        <button id="send-message">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="dashboard.js"></script>
 </body>
-</html>
+          </html>

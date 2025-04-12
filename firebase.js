@@ -1,1 +1,1 @@
-// firebase config and init
+// firebase.js - Firebase push notification setup - Needs coded

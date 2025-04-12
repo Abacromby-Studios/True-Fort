@@ -1,11 +1,83 @@
+<!---contact.html--->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Contact Us</title>
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us - TrueFort</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>Contact Page</h1>
+  <header>
+    <div class="logo">
+      <h1>TrueFort</h1>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="server-info.html">Server Info</a></li>
+        <li><a href="rules.html">Rules</a></li>
+        <li><a href="discord.html">Discord</a></li>
+        <li><a href="contact.html" class="active">Contact</a></li>
+        <li><a href="terms.html">Terms</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="contact-section">
+      <h2>Contact Our Team</h2>
+      <form id="contact-form">
+        <label for="email">Your Email:</label>
+        <input type="email" id="email" required />
+
+        <label for="department">Department:</label>
+        <select id="department" required>
+          <option value="">-- Select a Department --</option>
+          <option value="Website Development Team">Website Development Team</option>
+          <option value="Game Development Team">Game Development Team</option>
+          <option value="Legal Team Representative">Legal Team Representative</option>
+        </select>
+
+        <label for="subject">Subject:</label>
+        <input type="text" id="subject" required />
+
+        <label for="message">Message:</label>
+        <textarea id="message" rows="6" required></textarea>
+
+        <button id="submit-form">Submit</button>
+      </form>
+    </section>
+
+    <hr />
+
+    <section class="appeal-section">
+      <h2>Ban Appeal</h2>
+      <form id="appeal-form">
+        <label for="appeal-email">Your Email:</label>
+        <input type="email" id="appeal-email" required />
+
+        <label for="username">Minecraft Username:</label>
+        <input type="text" id="username" required />
+
+        <label for="reason">Reason for Ban:</label>
+        <textarea id="reason" rows="3" required></textarea>
+
+        <label for="appeal-message">Why should we lift your ban?</label>
+        <textarea id="appeal-message" rows="6" required></textarea>
+
+        <button id="submit-appeal">Submit Appeal</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 TrueFort. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="contact.js"></script>
+  <script src="appeal.js"></script>
 </body>
-</html>
+                                             </html>
