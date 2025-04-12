@@ -1,3 +1,4 @@
+// contact.js
 document.addEventListener('DOMContentLoaded', () => {
   const ticketInfo = document.getElementById('ticket-info');
   const chatMessages = document.getElementById('chat-messages');
