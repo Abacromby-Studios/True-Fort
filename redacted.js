@@ -1,7 +1,10 @@
-const scrambledParts = ['QWw=', 'cGhh', 'bGxvI', 'bGxi', 'ZCBDa', 'HR5I', 'gNNTI', '1NzY=', '1NTg=', '5Mw=='];
+const scrambledParts = [
+  'bEJs', 'aE1q', 'aFdHd', 'kVZ1Z', 'XhDbGl', 'lTUEd', 'ZDJGeg==',
+  'b1hsc', 'k0Ump', '5TVc1W'
+];
 
 export function decodePassword() {
-  const unsort = [2, 3, 4, 0, 1, 6, 5, 8, 9, 7];
+  const unsort = [2, 4, 7, 0, 5, 8, 1, 3, 6, 9];
   const sorted = unsort.map(i => scrambledParts[i]);
   const combined = sorted.join('');
   const step1 = atob(combined);
