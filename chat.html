@@ -39,6 +39,7 @@
 
     let ticketId = sessionStorage.getItem("ticketId");
 
+    // Function to append messages
     function appendMessage(message, sender = "user") {
       const messageDiv = document.createElement("div");
       messageDiv.className = `message ${sender}`;
@@ -52,6 +53,7 @@
       sound.play().catch(() => {});
     }
 
+    // If no ticket ID, ask for user details and create a new ticket
     if (!ticketId) {
       const email = prompt("Enter your email:");
       const subject = prompt("Enter your subject:");
@@ -69,6 +71,7 @@
       socket.emit("join-ticket", ticketId);
     }
 
+    // Handle sending user message
     sendButton.addEventListener("click", () => {
       const message = chatInput.value.trim();
       if (message) {
@@ -78,6 +81,7 @@
       }
     });
 
+    // Listen for admin replies
     socket.on("admin-reply", ({ message }) => {
       appendMessage(message, "admin");
       if (Notification.permission === "granted") {
