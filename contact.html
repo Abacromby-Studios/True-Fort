@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Contact - TrueFort</title>
+  <title>Contact Us - TrueFort</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
 </head>
 <body>
   <header>
@@ -24,134 +23,60 @@
     </nav>
   </header>
 
-  <section class="page-header">
-    <div class="container">
-      <h1>Contact & Ban Appeals</h1>
-      <p>Reach out to our team or appeal a ban</p>
-    </div>
-  </section>
+  <main class="container">
+    <section class="contact-section">
+      <h2>Contact Our Team</h2>
+      <form id="contact-form">
+        <label for="email">Your Email:</label>
+        <input type="email" id="email" required />
 
-  <section class="contact-section">
-    <div class="container">
+        <label for="department">Department:</label>
+        <select id="department" required>
+          <option value="">-- Select a Department --</option>
+          <option value="Website Development Team">Website Development Team</option>
+          <option value="Game Development Team">Game Development Team</option>
+          <option value="Legal Team Representative">Legal Team Representative</option>
+        </select>
 
-      <!-- Contact Form -->
-      <div class="contact-form-container">
-        <h2>Contact Form</h2>
-        <form id="contact-form" autocomplete="off">
-          <div class="form-group">
-            <label for="email">Email Address*</label>
-            <input type="email" id="email" name="email" required />
-          </div>
+        <label for="subject">Subject:</label>
+        <input type="text" id="subject" required />
 
-          <div class="form-group">
-            <label for="department">Department*</label>
-            <select id="department" name="department" required>
-              <option value="">Select a department</option>
-              <option value="website">Website Development Team</option>
-              <option value="game">Game Development Team</option>
-              <option value="legal">Legal Team</option>
-              <option value="appeal">Appeal Team</option>
-            </select>
-          </div>
+        <label for="message">Message:</label>
+        <textarea id="message" rows="6" required></textarea>
 
-          <div class="form-group">
-            <label for="subject">Subject*</label>
-            <input type="text" id="subject" name="subject" required />
-          </div>
+        <button id="submit-form">Submit</button>
+      </form>
+    </section>
 
-          <div class="form-group">
-            <label for="message">Message*</label>
-            <textarea id="message" name="message" rows="6" required></textarea>
-          </div>
+    <hr />
 
-          <button type="button" class="btn btn-primary" id="submit-form">Submit</button>
-        </form>
-      </div>
+    <section class="appeal-section">
+      <h2>Ban Appeal</h2>
+      <form id="appeal-form">
+        <label for="appeal-email">Your Email:</label>
+        <input type="email" id="appeal-email" required />
 
-      <!-- Appeal Form -->
-      <div class="contact-form-container" style="margin-top: 3rem;">
-        <h2>Ban Appeal Form</h2>
-        <form id="appeal-form" action="javascript:void(0);" method="post" autocomplete="off">
-          <div class="form-group">
-            <label for="appeal-email">Email Address*</label>
-            <input type="email" id="appeal-email" name="email" required />
-          </div>
+        <label for="username">Minecraft Username:</label>
+        <input type="text" id="username" required />
 
-          <div class="form-group">
-            <label for="minecraft-username">Minecraft Username*</label>
-            <input type="text" id="minecraft-username" name="username" required />
-          </div>
+        <label for="reason">Reason for Ban:</label>
+        <textarea id="reason" rows="3" required></textarea>
 
-          <div class="form-group">
-            <label for="ban-reason">Why were you banned?*</label>
-            <textarea id="ban-reason" name="banReason" rows="3" required></textarea>
-          </div>
+        <label for="appeal-message">Why should we lift your ban?</label>
+        <textarea id="appeal-message" rows="6" required></textarea>
 
-          <div class="form-group">
-            <label for="appeal-reason">Why should we unban you?*</label>
-            <textarea id="appeal-reason" name="appealReason" rows="6" required></textarea>
-          </div>
-
-          <button type="button" class="btn btn-primary" id="submit-form-appeal">Submit</button>
-        </form>
-      </div>
-
-    </div>
-  </section>
+        <button id="submit-appeal">Submit Appeal</button>
+      </form>
+    </section>
+  </main>
 
   <footer>
     <div class="container">
-      <div class="footer-content">
-        <div class="footer-section">
-          <h3>TrueFort</h3>
-          <p>A premium Minecraft experience</p>
-        </div>
-        <div class="footer-section">
-          <h3>Quick Links</h3>
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="server-info.html">Server Info</a></li>
-            <li><a href="rules.html">Rules</a></li>
-            <li><a href="contact.html">Contact</a></li>
-          </ul>
-        </div>
-        <div class="footer-section">
-          <h3>Legal</h3>
-          <ul>
-            <li><a href="terms.html">Terms of Use</a></li>
-            <li><a href="privacy.html">Privacy Policy</a></li>
-          </ul>
-        </div>
-        <div class="footer-section">
-          <h3>Connect</h3>
-          <div class="social-icons">
-            <a href="discord.html"><i class="fab fa-discord"></i></a>
-          </div>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>&copy; 2025 TrueFort. All rights reserved.</p>
-      </div>
+      <p>&copy; 2025 TrueFort. All rights reserved.</p>
     </div>
   </footer>
 
-  <script src="firebase.js"></script>
   <script src="contact.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const audio = new Audio('/alert1.mp3');
-      audio.volume = 0.3;
-
-      if ('Notification' in window) {
-        Notification.requestPermission().then((perm) => {
-          console.log("Notification permission:", perm);
-        });
-      }
-
-      document.body.addEventListener('click', () => {
-        audio.play().catch(() => {});
-      }, { once: true });
-    });
-  </script>
+  <script src="appeal.js"></script>
 </body>
-                                                  </html>
+                                             </html>
