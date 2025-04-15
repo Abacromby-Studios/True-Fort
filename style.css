@@ -1075,7 +1075,63 @@ font-size: 28px;
 .legal-content {  
     padding: 20px;  
 }
+/* Hide the checkbox */
+.menu-btn {
+  display: none;
+}
 
+/* Style the menu icon */
+.menu-icon {
+  display: block;
+  position: absolute;
+  top: 60px; /* Adjust as needed */
+  left: 20px;
+  cursor: pointer;
+  z-index: 1;
+}
+
+.menu-icon .navicon {
+  background: #333;
+  display: block;
+  height: 2px;
+  position: relative;
+  width: 18px;
+}
+
+.menu-icon .navicon:before,
+.menu-icon .navicon:after {
+  background: #333;
+  content: '';
+  display: block;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+.menu-icon .navicon:before {
+  top: 5px;
+}
+
+.menu-icon .navicon:after {
+  top: -5px;
+}
+
+/* Hide the menu by default */
+.menu {
+  display: none;
+  position: absolute;
+  top: 100px; /* Adjust as needed */
+  left: 20px;
+  background: #fff;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+/* Show the menu when the checkbox is checked */
+.menu-btn:checked ~ .menu {
+  display: block;
+  }
+  
 }
 
   
