@@ -1,23 +1,27 @@
-// email.js
-const nodemailer = require('nodemailer');
+import nodemailer from "nodemailer";
+import dotenv from "dotenv";
+dotenv.config();
 
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USERNAME,
-        pass: process.env.EMAIL_PASSWORD
-    }
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USERNAME,
+    pass: process.env.EMAIL_PASSWORD
+  }
 });
 
-const sendMail = async (email, department, subject, message) => {
-    const mailOptions = {
-        from: process.env.EMAIL_USERNAME,
-        to: process.env.EMAIL_USERNAME,
-        subject: `[${department.toUpperCase()}] ${subject}`,
-        text: `From: ${email}\n\n${message}`
-    };
-
-    await transporter.sendMail(mailOptions);
+export const sendEmail = async ({ to, subject, html }) => {
+  try {
+    const info = await transporter.sendMail({
+      from: `"True-Fort Support" <${process.env.EMAIL_USERNAME}>`,
+      to,
+      subject,
+      html
+    });
+    console.log("Email sent:", info.messageId);
+    return true;
+  } catch (error) {
+    console.error("Email send error:", error);
+    return false;
+  }
 };
-
-module.exports = { sendMail };
