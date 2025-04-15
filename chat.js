@@ -1,74 +1,65 @@
-import { PieSocket } from "https://cdn.piesocket.com/piesocket.js";
+const chatBox = document.getElementById('chat-box');
+const chatForm = document.getElementById('chat-form');
+const chatInput = document.getElementById('chat-input');
 
-const ticketId = localStorage.getItem("ticketId");
-const username = localStorage.getItem("username") || "Guest";
-const department = localStorage.getItem("department") || "Support";
-const chatBox = document.getElementById("chat-box");
-const chatForm = document.getElementById("chat-form");
-const chatInput = document.getElementById("chat-input");
+let ticketId = sessionStorage.getItem('ticketId');
+let username = sessionStorage.getItem('username');
+let department = sessionStorage.getItem('department');
 
-document.getElementById("ticket-id").textContent = ticketId || "Unknown";
-
-if (!ticketId) {
-  alert("No ticket found. Please go back to the contact form.");
-  window.location.href = "contact.html";
+if (!ticketId || !username || !department) {
+  window.location.href = 'contact.html';
 }
 
-const piesocket = new PieSocket({
-  clusterId: "nyc1",
-  apiKey: "UPiinnDYEtfHneH6QMpY0w1cF9JgdL8wrocbmbUV",
-  notifySelf: true,
+appendMessage('system', `You are now connected with the ${department}. Ticket ID: #${ticketId}`);
+
+const piesocket = new WebSocket(`wss://s14444.nyc1.piesocket.com/v3/1?api_key=UPiinnDYEtfHneH6QMpY0w1cF9JgdL8wrocbmbUV&notify_self=1`);
+
+piesocket.addEventListener('open', () => {
+  piesocket.send(JSON.stringify({
+    type: 'join',
+    ticketId,
+    username,
+    department
+  }));
 });
 
-const channel = piesocket.subscribe(ticketId);
+piesocket.addEventListener('message', (event) => {
+  const data = JSON.parse(event.data);
 
-channel.listen("message", (data) => {
-  const msg = typeof data === "string" ? JSON.parse(data) : data;
-  displayMessage(msg.from, msg.message);
-  if (msg.from === "Admin") {
-    playAlert();
-    sendNotification("Reply from True-Fort Staff", msg.message);
+  if (data.type === 'admin') {
+    appendMessage('admin', data.message);
+    alert('You have a new message from support!');
+    playNotification();
+  } else if (data.type === 'system') {
+    appendMessage('system', data.message);
   }
 });
 
-chatForm.addEventListener("submit", (e) => {
+chatForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const message = chatInput.value.trim();
-  if (message === "") return;
-
-  const payload = {
-    from: username,
-    message,
-    department,
-    ticketId,
-  };
-
-  displayMessage(username, message);
-  channel.publish("message", JSON.stringify(payload));
-  chatInput.value = "";
+  if (message) {
+    appendMessage('user', message);
+    piesocket.send(JSON.stringify({
+      type: 'user',
+      message,
+      ticketId,
+      username,
+      department
+    }));
+    chatInput.value = '';
+  }
 });
 
-function displayMessage(sender, message) {
-  const div = document.createElement("div");
-  div.className = "chat-message";
-  div.innerHTML = `<strong>${sender}:</strong> ${message}`;
-  chatBox.appendChild(div);
+function appendMessage(sender, message) {
+  const msgEl = document.createElement('div');
+  msgEl.className = `chat-message ${sender}`;
+  msgEl.textContent = `${sender === 'user' ? 'You' : sender === 'admin' ? 'Admin' : ''}: ${message}`;
+  chatBox.appendChild(msgEl);
   chatBox.scrollTop = chatBox.scrollHeight;
 }
 
-function playAlert() {
-  const audio = new Audio("notification.mp3");
+function playNotification() {
+  const audio = new Audio('notification.mp3');
   audio.play().catch(() => {});
 }
-
-function sendNotification(title, body) {
-  if (Notification.permission === "granted") {
-    new Notification(title, { body });
-  } else if (Notification.permission !== "denied") {
-    Notification.requestPermission().then((permission) => {
-      if (permission === "granted") {
-        new Notification(title, { body });
-      }
-    });
-  }
-                                          }
