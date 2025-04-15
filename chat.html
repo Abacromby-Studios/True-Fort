@@ -3,56 +3,58 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Live Chat - True-Fort SMP & Factions</title>
+  <title>True-Fort SMP & Factions - Live Chat</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
-    <nav class="centered-nav">
-      <ul>
+    <nav>
+      <ul class="nav-center">
         <li><a href="index.html">Home</a></li>
         <li><a href="rules.html">Rules</a></li>
         <li><a href="terms.html">Terms</a></li>
         <li><a href="privacy.html">Privacy</a></li>
         <li><a href="server-info.html">Server Info</a></li>
         <li><a href="discord.html">Discord</a></li>
+        <li><a href="dashboard.html">Admin</a></li>
       </ul>
     </nav>
   </header>
 
-  <main>
-    <section class="chat-section">
-      <h2>Your Support Ticket</h2>
-      <p>Your ticket ID is <span id="ticket-id"></span>. You are now connected with a team member.</p>
-      <div id="chat-box" class="chat-box"></div>
+  <main class="chat-page">
+    <section class="chat-container">
+      <h2>Live Support Chat</h2>
+      <div id="chat-box"></div>
       <form id="chat-form">
-        <input type="text" id="chat-input" placeholder="Type your message..." autocomplete="off" />
+        <input type="text" id="chat-input" placeholder="Type your message..." autocomplete="off" required />
         <button type="submit">Send</button>
       </form>
     </section>
   </main>
 
   <footer>
-    <div class="footer-content">
-      <p><em>Providing a premium Minecraft SMP & Factions experience.</em></p>
-      <div class="footer-links">
-        <div>
-          <h4>Quick Links</h4>
-          <a href="index.html">Home</a>
-          <a href="server-info.html">Server Info</a>
-          <a href="discord.html">Discord</a>
-        </div>
-        <div>
-          <h4>Legal</h4>
-          <a href="rules.html">Rules</a>
-          <a href="terms.html">Terms</a>
-          <a href="privacy.html">Privacy</a>
-        </div>
+    <p>"Experience premium Minecraft SMP & Factions like never before."</p>
+    <div class="footer-links">
+      <div>
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="rules.html">Rules</a></li>
+          <li><a href="server-info.html">Server Info</a></li>
+          <li><a href="discord.html">Discord</a></li>
+        </ul>
       </div>
-      <p>&copy; 2025 True-Fort SMP & Factions. All rights reserved.</p>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="terms.html">Terms of Use</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+        </ul>
+      </div>
     </div>
+    <p>&copy; 2025 True-Fort SMP & Factions. All rights reserved.</p>
   </footer>
 
-  <script src="chat.js" type="module"></script>
+  <script src="chat.js"></script>
 </body>
 </html>
