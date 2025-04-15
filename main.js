@@ -1,1 +1,4 @@
-// main.js - general site-wide JavaScript - needs coded for aby abd all functionality needed for pages that require additional functionality, code this file.
+document.getElementById('hamburger').addEventListener('click', () => {
+  const nav = document.getElementById('nav-links');
+  nav.classList.toggle('visible');
+});
