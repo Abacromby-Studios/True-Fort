@@ -1,84 +1,56 @@
-<!---server-info.html--->
-!DOCTYPE html>  <html lang="en">  
-<head>  
-    <meta charset="UTF-8">  
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-    <title>Server Information - TrueFort</title>  
-    <link rel="stylesheet" href="style.css">  
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">  
-</head>  
-<body>  
-    <header>  
-        <div class="logo">  
-            <h1>TrueFort</h1>  
-        </div>  
-        <nav>  
-            <ul>  
-                <li><a href="index.html">Home</a></li>  
-                <li><a href="server-info.html" class="active">Server Info</a></li>  
-                <li><a href="rules.html">Rules</a></li>  
-                <li><a href="discord.html">Discord</a></li>  
-                <li><a href="contact.html">Contact</a></li>  
-                <li><a href="terms.html">Terms</a></li>  
-            </ul>  
-        </nav>  
-    </header
-<section class="server-info-section">
-    <div class="container">
-        <!-- Removed server-status-card -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Server Info | True-Fort SMP & Factions</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <nav class="centered-nav">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="rules.html">Rules</a></li>
+        <li><a href="terms.html">Terms</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+        <li><a href="discord.html">Discord</a></li>
+        <li><a href="server-info.html" class="active">Server Info</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="dashboard.html">Admin</a></li>
+      </ul>
+    </nav>
+  </header>
 
-        <div class="connection-info">
-            <h2>Connection Details</h2>
-            <div class="connection-cards">
-                <div class="connection-card java">
-                    <div class="card-header">
-                        <i class="fas fa-desktop"></i>
-                        <h3>Java Edition</h3>
-                    </div>
-                    <div class="card-content">
-                        <div class="server-address">
-                            <span class="label">Server Address:</span>
-                            <div class="copy-field">
-                                <input type="text" value="truefort.minehut.gg" readonly id="javaIp">
-                                <button class="copy-btn" data-clipboard-target="#javaIp">
-                                    <i class="fas fa-copy"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="server-version">
-                            <span class="label">Version:</span>
-                            <span class="value">1.19.2 (Latest)</span>
-                        </div>
-                        <button class="btn btn-primary" id="copyJavaIp">Copy IP</button>
-                    </div>
-                </div>
+  <main class="content">
+    <h1>True-Fort SMP & Factions Server Info</h1>
+    <p>Welcome to the official True-Fort SMP & Factions server info page.</p>
+    <ul>
+      <li><strong>Java IP:</strong> play.truefortmc.net</li>
+      <li><strong>Bedrock IP:</strong> play.truefortmc.net</li>
+      <li><strong>Bedrock Port:</strong> 19132</li>
+      <li><strong>Supported Versions:</strong> 1.6+</li>
+      <li><strong>Java Edition + Bedrock Crossplay Supported</strong></li>
+      <li><strong>Premium Experience:</strong> No Pay-to-Win. Survival & Factions focused.</li>
+      <li><strong>Hosting Location:</strong> North America (low-latency global access)</li>
+    </ul>
+    <p>Join us and become part of a community built for fairness, challenge, and fun!</p>
+  </main>
 
-                <div class="connection-card bedrock">
-                    <div class="card-header">
-                        <i class="fas fa-mobile-alt"></i>
-                        <h3>Bedrock Edition</h3>
-                    </div>
-                    <div class="card-content">
-                        <div class="server-address">
-                            <span class="label">Server Address:</span>
-                            <div class="copy-field">
-                                <input type="text" value="truefort.bedrock.minehut.gg" readonly id="bedrockIp">
-                                <button class="copy-btn" data-clipboard-target="#bedrockIp">
-                                    <i class="fas fa-copy"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="server-port">
-                            <span class="label">Port:</span>
-                            <div class="copy-field">
-                                <input type="text" value="19132" readonly id="bedrockPort">
-                                <button class="copy-btn" data-clipboard-target="#bedrockPort">
-                                    <i class="fas fa-copy"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <button class="btn btn-primary" id="copyBedrockIp">Copy IP</button>
-                    </div>
-                </div>
-            </div>
-                              </div>
+  <footer>
+    <div class="footer-content">
+      <p><em>True-Fort SMP & Factions - A Premium Minecraft Experience</em></p>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="rules.html">Rules</a></li>
+        <li><a href="terms.html">Terms</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+        <li><a href="discord.html">Discord</a></li>
+      </ul>
+      <p>&copy; 2025 True-Fort SMP & Factions. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="server-info.js"></script>
+</body>
+</html>
